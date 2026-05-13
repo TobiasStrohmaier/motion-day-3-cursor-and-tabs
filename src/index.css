@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/*
+ * 3-layer token architecture (Layer 1 → Layer 2 → Layer 3)
+ * Continues the system you built in W1. Same idea, new module.
+ */
+@theme {
+  /* Layer 1 — Primitives (raw values, never used by components directly) */
+  --color-violet-500: oklch(72% 0.16 280);
+  --color-violet-400: oklch(78% 0.14 285);
+  --color-ink-950: oklch(15% 0.01 280);
+  --color-ink-100: oklch(96% 0.005 280);
+
+  /* Layer 2 — Semantic (the meaning) */
+  --color-brand: var(--color-violet-500);
+  --color-brand-soft: var(--color-violet-400);
+  --color-bg: var(--color-ink-950);
+  --color-ink: var(--color-ink-100);
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  margin: 0;
+}
