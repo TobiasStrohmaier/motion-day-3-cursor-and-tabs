@@ -12,17 +12,21 @@
  *   what the primitive IS. Mandy's hello-motion follows the same pattern.
  */
 
-import { ScrollHero } from "./ScrollHero"
 import { NextSection } from "./NextSection"
 import { CursorFollower } from "./CursorFollower"
 import { TabBar } from "./TabBar"
+import { CyclingHeadline } from "./CyclingHeadline"
+import { RevealCard } from "./RevealCard"
+import { LogoStrip } from "./LogoStrip"
 
 export default function App() {
   return (
     <main>
       <CursorFollower />
-      <ScrollHero />
+      <CyclingHeadline />
       <TabBar />
+      <RevealCard />
+      <LogoStrip />
       <NextSection />
     </main>
   )

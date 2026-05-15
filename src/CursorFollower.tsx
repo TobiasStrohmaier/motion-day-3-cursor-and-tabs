@@ -35,67 +35,31 @@
  *    without main-thread work."
  */
 
+
 import { motion, useMotionValue, useSpring } from "motion/react"
 import { useEffect } from "react"
 import { SPRING_PRESETS } from "./motion.config"
 
 export function CursorFollower() {
-  // === BEGIN BUILD 1 — Raw mouse position as MotionValues ===
-  //
-  // Hint:
-  //   const mouseX = useMotionValue(0)
-  //   const mouseY = useMotionValue(0)
-  //
-  // Why two values: x and y are independent axes. The spring on x does not
-  // need to know about y. Independent MotionValues = independent springs.
-  //
-  // === END BUILD 1 ===
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
 
-  // === BEGIN BUILD 2 — Spring-wrapped derived MotionValues ===
-  //
-  // Hint:
-  //   const springX = useSpring(mouseX, SPRING_PRESETS.smooth)
-  //   const springY = useSpring(mouseY, SPRING_PRESETS.smooth)
-  //
-  // SPRING_PRESETS lives in motion.config.ts so you can change the feel
-  // in one place. Open that file — that pattern is itself the architecture
-  // lesson of this lecture.
-  //
-  // === END BUILD 2 ===
+  const springX = useSpring(mouseX, SPRING_PRESETS.smooth)
+  const springY = useSpring(mouseY, SPRING_PRESETS.smooth)
 
-  // === BEGIN BUILD 3 — useEffect with mousemove + cleanup ===
-  //
-  // Hint:
-  //   useEffect(() => {
-  //     const handle = (e: MouseEvent) => {
-  //       mouseX.set(e.clientX - 16)  // -16 centers the 32px dot on cursor
-  //       mouseY.set(e.clientY - 16)
-  //     }
-  //     window.addEventListener("mousemove", handle)
-  //     return () => window.removeEventListener("mousemove", handle)
-  //   }, [mouseX, mouseY])
-  //
-  // The cleanup return is non-negotiable. Without it, Hot Module Reload
-  // doubles up listeners and you have a slow memory leak.
-  //
-  // === END BUILD 3 ===
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      mouseX.set(e.clientX - 16)
+      mouseY.set(e.clientY - 16)
+    }
+    window.addEventListener("mousemove", handle)
+    return () => window.removeEventListener("mousemove", handle)
+  }, [mouseX, mouseY])
 
-  // === BEGIN BUILD 4 — Render the dot ===
-  //
-  // Hint:
-  //   return (
-  //     <motion.div
-  //       style={{ x: springX, y: springY }}
-  //       className="fixed top-0 left-0 w-8 h-8 rounded-full bg-[var(--color-brand)] pointer-events-none mix-blend-difference z-50"
-  //     />
-  //   )
-  //
-  // Three things to remember:
-  //   - `fixed top-0 left-0` is the anchor. Animation runs over Transform, not over left/top.
-  //   - `pointer-events-none` prevents the dot from intercepting clicks on real UI.
-  //   - `mix-blend-difference` makes the dot visible on BOTH dark and light backgrounds.
-  //
-  // === END BUILD 4 ===
-
-  return null // ← delete this when build is done
+  return (
+    <motion.div
+      style={{ x: springX, y: springY }}
+      className="fixed top-0 left-0 w-8 h-8 rounded-full bg-[var(--color-brand)] pointer-events-none mix-blend-difference z-50"
+    />
+  )
 }
